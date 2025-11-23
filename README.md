@@ -1,38 +1,130 @@
-# create-svelte
+# 가사 타이밍 도구 (Lyric Timing Tool)
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+프레임 단위로 정확한 타임코드를 생성할 수 있는 가사 동기화 도구입니다. 영상 편집이나 자막 작업 시 가사와 타임코드를 효율적으로 관리할 수 있습니다.
 
-## Creating a project
+## 주요 기능
 
-If you're seeing this, you've probably already done this step. Congrats!
+- **프레임 단위 타이밍**: 24/30/60 FPS 설정으로 정확한 프레임 타이밍 지원
+- **키보드 컨트롤**: 키보드만으로 가사 탐색 및 타임코드 캡처
+- **다국어 가사 지원**: 일본어/한국어 3줄 가사 동시 표시
+- **애니메이션 프리뷰**: 가사 전환 시 실제 표시될 애니메이션 미리보기
+- **타임스탬프 내보내기**: 캡처한 타임코드를 CSV 형식으로 클립보드에 복사
 
-```bash
-# create a new project in the current directory
-npx sv create
+## 사용 방법
 
-# create a new project in my-app
-npx sv create my-app
-```
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+### 1. 개발 서버 실행
 
 ```bash
+npm install
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
+### 2. 가사 입력
 
-To create a production version of your app:
+화면 상단의 textarea에 가사를 입력합니다:
+
+```
+일본어 가사 첫 줄
+한국어 번역 첫 줄
+한국어 번역 두 번째 줄
+
+일본어 가사 두 번째 섹션
+한국어 번역 첫 줄
+한국어 번역 두 번째 줄
+```
+
+- 가사 섹션은 **빈 줄 2개** (`\n\n`)로 구분
+- 각 섹션 내 줄은 **줄바꿈 1개** (`\n`)로 구분
+- 각 섹션은 3줄로 구성 (일본어 1줄 + 한국어 2줄)
+
+### 3. 타이밍 작업
+
+1. **FPS 설정**: 우측 사이드바에서 24/30/60fps 선택
+2. **스톱워치 시작**: `Enter` 키를 눌러 시작/정지
+3. **가사 탐색**:
+   - `→` (오른쪽 화살표): 다음 가사로 이동 + 타임스탬프 기록
+   - `←` (왼쪽 화살표): 이전 가사로 이동 + 타임스탬프 기록
+4. **스톱워치 초기화**: `R` 키
+
+### 4. 타임스탬프 내보내기
+
+우측 사이드바의 "클립보드에 복사" 버튼을 클릭하면 다음 형식으로 복사됩니다:
+
+```
+next,00:01:23:15
+next,00:01:25:08
+prev,00:01:20:12
+```
+
+형식: `type,HH:MM:SS:FF` (시간:분:초:프레임)
+
+## 키보드 단축키
+
+| 키      | 기능                        |
+| ------- | --------------------------- |
+| `Enter` | 스톱워치 시작/정지          |
+| `R`     | 스톱워치 초기화             |
+| `→`     | 다음 가사 + 타임스탬프 기록 |
+| `←`     | 이전 가사 + 타임스탬프 기록 |
+
+## 가사 상태
+
+가사는 4가지 상태로 표시됩니다:
+
+- **exit**: 지나간 가사 (투명, 작게)
+- **focus**: 현재 포커스된 가사 (완전 불투명, 중앙)
+- **preview**: 다음에 올 가사 (반투명, 아래쪽)
+- **queue**: 대기 중인 가사 (투명, 더 아래쪽)
+
+## 개발 모드
+
+화면 상단의 "dev" 체크박스를 활성화하면 각 가사 박스에 빨간 테두리가 표시되어 레이아웃 디버깅에 유용합니다.
+
+## 프로젝트 구조
+
+```
+src/
+├── routes/
+│   ├── +page.svelte       # 메인 페이지 (가사 입력 및 키보드 컨트롤)
+│   └── +layout.ts         # 레이아웃 설정
+├── components/
+│   ├── Lyric.svelte       # 가사 표시 컴포넌트 (상태별 애니메이션)
+│   ├── stopwatch.svelte   # 프레임 정확도 스톱워치
+│   ├── timestamp.svelte   # 타임스탬프 목록
+│   ├── timestamp-item.svelte
+│   ├── control.svelte     # 초기화/복사 버튼
+│   ├── container.svelte
+│   └── button.svelte
+└── lib/
+    ├── store.ts           # Svelte 스토어 (상태 관리)
+    └── app.css            # 글로벌 스타일 (폰트, CSS 변수)
+```
+
+## 기술 스택
+
+- **SvelteKit 2.0**: 프레임워크
+- **TypeScript**: 타입 안정성
+- **Vite**: 빌드 도구
+- **Noto Sans JP/SC**: 일본어 폰트
+- **NanumSquare Neo**: 한국어 폰트
+
+## 빌드 및 배포
 
 ```bash
+# 프로덕션 빌드
 npm run build
+
+# 빌드 미리보기
+npm run preview
+
+# 타입 체크
+npm run check
+
+# 린트 및 포맷
+npm run lint
+npm run format
 ```
 
-You can preview the production build with `npm run preview`.
+## 라이선스
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+MIT
