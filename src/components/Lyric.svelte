@@ -29,7 +29,7 @@
 
 	#lyricbox.exit {
 		color: #ffffff00;
-		transform: translate(-50%, calc(-50% - 0px)) scale(0.75) !important;
+		transform: translate(-50%, calc(-50% - 200px)) scale(0.75) !important;
 	}
 
 	#lyricbox.focus {
