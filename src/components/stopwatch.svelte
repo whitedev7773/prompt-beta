@@ -1,15 +1,16 @@
-<script>
-    import { onMount } from 'svelte';
+<script lang="ts">
     class Stopwatch {
-        // @ts-ignore
-        constructor(fps) {
+        private fps: number;
+        private isRunning: boolean = false;
+        private startTime: number = 0;
+        private elapsedTime: number = 0;
+        private timer: ReturnType<typeof setInterval> | null = null;
+
+        constructor(fps: number) {
             this.fps = fps;
-            this.isRunning = false;
-            this.startTime = 0;
-            this.elapsedTime = 0;
         }
 
-        start() {
+        start(): void {
             if (!this.isRunning) {
                 this.isRunning = true;
                 this.startTime = Date.now();
@@ -17,34 +18,36 @@
             }
         }
 
-        stop() {
+        stop(): void {
             if (this.isRunning) {
                 this.isRunning = false;
-                clearInterval(this.timer);
+                if (this.timer) {
+                    clearInterval(this.timer);
+                    this.timer = null;
+                }
                 this.elapsedTime += (Date.now() - this.startTime) / 1000;
             }
         }
 
-        reset() {
+        reset(): void {
             this.elapsedTime = 0;
             if (this.isRunning) {
                 this.startTime = Date.now();
             }
         }
 
-        tick() {
+        private tick(): void {
             this.timer = setInterval(() => {
-            if (this.isRunning) {
-                const currentTime = Date.now();
-                this.elapsedTime += (currentTime - this.startTime) / 1000;
-                this.startTime = currentTime;
-                formattedTime = stopwatch.getFormattedTime();
-                // 여기에서 Svelte의 상태를 업데이트할 수 있습니다.
-            }
+                if (this.isRunning) {
+                    const currentTime = Date.now();
+                    this.elapsedTime += (currentTime - this.startTime) / 1000;
+                    this.startTime = currentTime;
+                    formattedTime = stopwatch.getFormattedTime();
+                }
             }, 1000 / this.fps);
         }
 
-        getFormattedTime() {
+        getFormattedTime(): string {
             const totalFrames = Math.floor(this.elapsedTime * this.fps);
             const frames = totalFrames % this.fps;
             const totalSeconds = Math.floor(this.elapsedTime);
@@ -54,37 +57,41 @@
 
             return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}:${String(frames).padStart(2, '0')}`;
         }
+
+        getRunningState(): boolean {
+            return this.isRunning;
+        }
     }
 
     let stopwatch = new Stopwatch(60); // 60fps로 초기화
-    let formattedTime = stopwatch.getFormattedTime();
-    let isRunning = false;
+    let formattedTime: string = stopwatch.getFormattedTime();
+    let isRunning: boolean = false;
 
-    // @ts-ignore
-    export function Relaunch(fps) {
+    export function Relaunch(fps: number): void {
         stopwatch = new Stopwatch(fps);
+        formattedTime = stopwatch.getFormattedTime();
     }
 
-    export function GetTime() {
+    export function GetTime(): string {
         return formattedTime;
     }
 
-    export function isRun() {
+    export function isRun(): boolean {
         return isRunning;
     }
 
-    export function Start() {
+    export function Start(): void {
         stopwatch.start();
         isRunning = true;
     }
 
-    export function Stop() {
+    export function Stop(): void {
         stopwatch.stop();
         formattedTime = stopwatch.getFormattedTime();
         isRunning = false;
     }
 
-    export function Reset() {
+    export function Reset(): void {
         stopwatch.reset();
         formattedTime = stopwatch.getFormattedTime();
     }

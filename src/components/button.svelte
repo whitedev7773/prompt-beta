@@ -1,12 +1,12 @@
-<script>
+<script lang="ts">
 	import '$lib/global.css';
 
-	export let color = '#eaeaea';
-	export var width = '120px';
-	export var height = '44px';
-	export let text_color = '#0a0a0a';
+	export let color: string = '#eaeaea';
+	export let width: string = '120px';
+	export let height: string = '44px';
+	export let text_color: string = '#0a0a0a';
 
-	export let onClick = () => {};
+	export let onClick: (() => void) | undefined = undefined;
 </script>
 
 <button

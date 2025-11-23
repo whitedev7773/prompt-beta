@@ -1,16 +1,15 @@
-<script>
+<script lang="ts">
 	import '$lib/global.css';
 	import { startTime } from '$lib/store';
 
-	export let number = 0;
+	export let number: number = 0;
 
-	export var max_scroll = 60;
-	export var min_scroll = 0;
+	export let max_scroll: number = 60;
+	export let min_scroll: number = 0;
 
-	export var type = 'none';
+	export let type: 'hour' | 'min' | 'sec' | 'fps' | 'none' = 'none';
 
-	// @ts-ignore
-	function handleScroll(event) {
+	function handleScroll(event: WheelEvent): void {
 		const delta = Math.sign(event.deltaY); // Get the scroll direction (+1 or -1)
 		number -= delta;
 		if (number <= min_scroll) {
