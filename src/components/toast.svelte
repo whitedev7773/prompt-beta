@@ -66,10 +66,10 @@
 
 	@media (max-width: 768px) {
 		.toast-container {
-			bottom: auto;
-			top: 20px;
-			left: 20px;
-			right: 20px;
+			bottom: 110px;
+			top: auto;
+			left: 12px;
+			right: 12px;
 		}
 
 		.toast {

@@ -29,7 +29,12 @@
 
 	#lyricbox.exit {
 		color: #ffffff00;
+		/* PC */
 		transform: translate(-50%, calc(-50% - 200px)) scale(0.75) !important;
+		/* Mobile */
+		@media (max-width: 1024px) {
+			transform: translate(-50%, calc(-50% - 100px)) scale(0.75) !important;
+		}
 	}
 
 	#lyricbox.focus {
@@ -39,12 +44,22 @@
 
 	#lyricbox.preview {
 		color: #ffffff88;
+		/* PC */
 		transform: translate(-50%, calc(-50% + 200px)) scale(0.75) !important;
+		/* Mobile */
+		@media (max-width: 1024px) {
+			transform: translate(-50%, calc(-50% + 100px)) scale(0.75) !important;
+		}
 	}
 
 	#lyricbox.queue {
 		color: #ffffff00;
+		/* PC */
 		transform: translate(-50%, calc(-50% + 400px)) scale(0.75) !important;
+		/* Mobile */
+		@media (max-width: 1024px) {
+			transform: translate(-50%, calc(-50% + 200px)) scale(0.75) !important;
+		}
 	}
 
 	p {
@@ -65,5 +80,23 @@
 		font-size: var(--kr-font-size);
 		font-weight: var(--kr-font-weight);
 		line-height: var(--kr-font-size);
+	}
+
+	@media (max-width: 1024px) {
+		#lyricbox {
+			width: 90vw;
+			left: 50%;
+		}
+
+		p {
+			text-wrap-mode: wrap;
+			word-break: keep-all;
+		}
+	}
+
+	@media (max-width: 480px) {
+		#lyricbox {
+			gap: 6px;
+		}
 	}
 </style>

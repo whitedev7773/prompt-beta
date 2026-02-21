@@ -55,6 +55,12 @@
 		z-index: 1000;
 	}
 
+	@media (max-width: 1024px) {
+		.help-btn {
+			display: none;
+		}
+	}
+
 	.help-btn:hover {
 		transform: scale(1.1);
 		box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);

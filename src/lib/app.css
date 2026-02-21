@@ -45,42 +45,25 @@ p {
 /* 반응형 디자인 */
 @media (max-width: 1024px) {
 	:root {
-		--jp-font-size: 40px;
-		--kr-font-size: 40px;
+		--jp-font-size: 36px;
+		--kr-font-size: 36px;
 	}
 
 	#sidebar {
-		position: fixed;
-		bottom: 0;
-		right: 0;
-		left: 0;
-		top: auto;
-		flex-direction: row;
-		gap: 10px;
-		padding: 10px;
-		background: rgba(0, 0, 0, 0.9);
-		backdrop-filter: blur(10px);
-		overflow-x: auto;
-		overflow-y: hidden;
+		display: none;
 	}
 }
 
 @media (max-width: 768px) {
 	:root {
-		--jp-font-size: 32px;
-		--kr-font-size: 32px;
-	}
-
-	#sidebar {
-		flex-direction: column;
-		max-height: 50vh;
-		overflow-y: auto;
+		--jp-font-size: 26px;
+		--kr-font-size: 26px;
 	}
 }
 
 @media (max-width: 480px) {
 	:root {
-		--jp-font-size: 24px;
-		--kr-font-size: 24px;
+		--jp-font-size: 20px;
+		--kr-font-size: 20px;
 	}
 }
